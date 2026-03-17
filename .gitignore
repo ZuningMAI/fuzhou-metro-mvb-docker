@@ -1,0 +1,41 @@
+# 不开源的文件
+metrodas.tar.gz
+
+# 编译产物（但保留 libmvbTest/bin/ 中的 .json, .data, .sh 文件）
+libmvbTest/build/
+libmvbTest/bin/*
+!libmvbTest/bin/*.json
+!libmvbTest/bin/data
+!libmvbTest/bin/*.sh
+!libmvbTest/bin/*.txt
+
+# Qt Creator 生成的文件
+*.user
+*.autosave
+.qtcreator/
+
+# 日志文件
+*.log
+log/
+logs/
+Log/
+Logs/
+
+# 编译产物
+*.o
+*.a
+*.so
+*.exe
+*.out
+
+# IDE 配置（可选，根据需要调整）
+.vscode/
+.qtcreator/
+.idea/
+
+# 临时文件
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

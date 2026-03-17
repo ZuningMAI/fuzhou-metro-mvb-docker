@@ -1,0 +1,22 @@
+# 1. 安装 socat
+sudo apt-get install -y socat
+
+# 2. 创建虚拟串口对
+socat -d -d pty,raw,echo=0,link=/tmp/vserial1 pty,raw,echo=0,link=/tmp/vserial2 &
+
+# 等待 2 秒让设备创建完成
+sleep 2
+
+# 3. 设置权限
+chmod 666 /tmp/vserial1 /tmp/vserial2
+
+# 4. 验证创建成功
+ls -l /tmp/vserial*
+
+# 查看发送的数据
+cat /tmp/vserial2
+
+# 或者查看十六进制格式
+hexdump -C /tmp/vserial2
+
+
