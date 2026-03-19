@@ -39,11 +39,12 @@ Docker 容器 (ARM64)
 ## 前置要求
 
 ### 系统要求
-- Windows 10/11 (64位)
-- Docker Desktop for Windows
-- PowerShell 5.1 或更高版本
-- 至少 8GB RAM
-- 至少 20GB 可用磁盘空间
+- **Windows**: Windows 10/11 (64位), Docker Desktop for Windows, PowerShell 5.1 或更高版本
+- **macOS**: macOS 10.15 或更高版本, Docker Desktop for Mac, 终端
+- **Linux**: 支持 Docker 的 Linux 发行版, 终端
+- **通用要求**: 至少 8GB RAM, 至少 20GB 可用磁盘空间
+
+linux的docker安装参考博文：https://blog.csdn.net/lbbxmx111/article/details/156243366
 
 ### 软件安装
 
@@ -94,6 +95,14 @@ Docker 容器 (ARM64)
 
 修改Resources的Disk Image Location为D盘的空白文件夹。
 
+linux：
+```bash
+sudo vim /etc/docker/daemon.json
+# 填写json内容后
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+sudo docker info | grep -A 10 "Registry Mirrors"
+```
 ---
 
 ## 快速开始
@@ -117,9 +126,12 @@ MAIN/
 │   ├── include/
 │   └── ...
 ├── Dockerfile              # Docker 镜像定义
-├── build-image.ps1         # 镜像构建脚本
-├── run-container.ps1       # 容器启动脚本
-├── compile-in-container.ps1 # 编译触发脚本
+├── build-image.ps1         # 镜像构建脚本 (Windows)
+├── build-image.sh          # 镜像构建脚本 (macOS/Linux)
+├── run-container.ps1       # 容器启动脚本 (Windows)
+├── run-container.sh        # 容器启动脚本 (macOS/Linux)
+├── compile-in-container.ps1 # 编译触发脚本 (Windows)
+├── compile-in-container.sh  # 编译触发脚本 (macOS/Linux)
 ├── build-all.sh            # 编译脚本（容器内使用）
 ├── start-metrodas.sh       # 服务启动脚本（容器内使用）
 ├── nginx.conf              # nginx 配置文件
@@ -139,10 +151,16 @@ QString configPath = "./bin/railway_config.json";
 
 ### 步骤 2: 构建 Docker 镜像
 
-在 `MAIN` 目录中打开 PowerShell，运行：
+**Windows 用户**：在 `MAIN` 目录中打开 PowerShell，运行：
 
 ```powershell
 .\build-image.ps1
+```
+
+**macOS/Linux 用户**：在 `MAIN` 目录中打开终端，运行：
+
+```bash
+./build-image.sh
 ```
 
 **构建过程说明：**
@@ -186,8 +204,16 @@ MetroDas Docker 镜像构建
 
 ### 步骤 3: 启动容器
 
+**Windows 用户**：在 `MAIN` 目录中打开 PowerShell，运行：
+
 ```powershell
 .\run-container.ps1
+```
+
+**macOS/Linux 用户**：在 `MAIN` 目录中打开终端，运行：
+
+```bash
+./run-container.sh
 ```
 若失败，执行
  netsh interface ipv4 show excludedportrange protocol=tcp
@@ -238,6 +264,20 @@ root@xxxxxxxxx:/workspace#
 
 ### 步骤 4: 编译和启动后端服务
 
+**Windows 用户**：在 `MAIN` 目录中打开 PowerShell，运行：
+
+```powershell
+.\compile-in-container.ps1
+```
+
+**macOS/Linux 用户**：在 `MAIN` 目录中打开终端，运行：
+
+```bash
+./compile-in-container.sh
+```
+
+或者在容器内直接运行：
+
 ```bash
 # 编译项目
 ./build-all.sh
@@ -246,7 +286,7 @@ root@xxxxxxxxx:/workspace#
 ./start-metrodas.sh
 ```
 
-### 步骤 4: 访问 Web 界面
+### 步骤 5: 访问 Web 界面
 
 1. 在 Windows 浏览器中打开: **http://localhost:30000**
 
@@ -257,7 +297,7 @@ root@xxxxxxxxx:/workspace#
 ![](./fig/前端配置.jpg)
 :label:`docker镜像列表`
 
-### 步骤 5: 运行 libmvbTest 测试
+### 步骤 6: 运行 libmvbTest 测试
 
 **终端 1**：
 
